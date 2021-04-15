@@ -2,7 +2,7 @@ using CSV, DataFrames
 using Optim, NLSolversBase, Random
 using Distributions
 using LinearAlgebra, GLM
-using StatsPlots
+using Plots
 
 #  Read in Dataset
 df = CSV.read("sampledata.csv", DataFrame; header=1, delim=",")
@@ -116,6 +116,11 @@ tmp = u_star ./(sigma_star .^(1/2))
 # Exp_u_i is expectation of u_i condition on ε_i
 Exp_u_i = sigma_star .^(1/2) .*map(t->pdf(dist, t), tmp) ./(map(t->cdf(dist, t), tmp)) .+ u_star   
 
-display(density(vec(Exp_u_i)))
+histogram(vec(Exp_u_i), bins=100)
+
+
+# build up efficiency variance density plots
+
+histogram(vec(σ_u), bins=100)
 
 
